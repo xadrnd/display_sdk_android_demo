@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="banner_top_margin">100dp</dimen>
+    <dimen name="about_text_margin">100dp</dimen>
+    <dimen name="about_title_size">50sp</dimen>
+    <dimen name="about_version_size">40sp</dimen>
+    <dimen name="about_copyright_size">20sp</dimen>
+</resources>
