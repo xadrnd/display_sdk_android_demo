@@ -3,4 +3,5 @@
     <string name="action_about">About</string>
     <string name="copyright">  Copyright (c) 2017 GroundTruth,Inc. All rights reserved.</string>
     <string name="about_title">BannerExample</string>
+    <string name="load_note">Please click the button on the bottom to load banner</string>
 </resources>

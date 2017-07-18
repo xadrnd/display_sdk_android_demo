@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "com.groundtruth.sdk.displaysdk.demo"
+        applicationId "com.groundtruth.sdk.displaysdk.demo.banner"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -21,7 +21,7 @@ android {
 
     productFlavors {
         TestApp {
-            buildConfigField "String", "ACCESS_KEY", '"upT9vzr2jgqyw_g7pi5tv6HjLcP0-U68DPdTMcMwvw0."'
+            buildConfigField "String", "ACCESS_KEY", '"test_key"'
         }
     }
 }
