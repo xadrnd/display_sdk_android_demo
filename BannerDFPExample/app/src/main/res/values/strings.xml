@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DFP Banner</string>
+    <string name="action_about">About</string>
+    <string name="copyright">  Copyright © 2017 GroundTruth,Inc. All rights reserved.</string>
+    <string name="about_title">Banner DFP\nExample</string>
+    <string name="load_note">Please click the button on the bottom to load Banner</string>
+    <string name="ad_unit_id">/155496285/android_300x250_all_one</string>
+</resources>
