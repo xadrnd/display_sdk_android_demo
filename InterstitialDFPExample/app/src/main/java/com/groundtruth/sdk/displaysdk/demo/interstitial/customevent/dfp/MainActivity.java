@@ -1,4 +1,4 @@
-package com.groundtruth.sdk.displaysdk.demo.interstitial;
+package com.groundtruth.sdk.displaysdk.demo.interstitial.customevent.dfp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.xad.sdk.AdRequest;
-import com.xad.sdk.BannerView;
-import com.xad.sdk.ErrorCode;
-import com.xad.sdk.InterstitialAd;
-import com.xad.sdk.listeners.BannerViewListener;
-import com.xad.sdk.listeners.InterstitialAdListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.xad.sdk.utils.Logger;
 
-public class MainActivity extends BaseActivity implements InterstitialAdListener {
+public class MainActivity extends BaseActivity {
 
     private InterstitialAd interstitial;
 
@@ -34,22 +31,29 @@ public class MainActivity extends BaseActivity implements InterstitialAdListener
         //Only show warning log message, default is none
         Logger.setLevel(Logger.Level.WARNING);
 
-        FloatingActionButton loadAdButton = (FloatingActionButton) findViewById(R.id.load_banner_button);
+        FloatingActionButton loadAdButton = (FloatingActionButton) findViewById(R.id.load_interstitial_button);
         loadAdButton.setVisibility(View.VISIBLE);
         loadAdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Create banner and set up
+                interstitial = new InterstitialAd(MainActivity.this);
                 //Please go to 'productFlavors' in build.gradle to change the access key if you want to get ad from live campaign
-                interstitial = new InterstitialAd(MainActivity.this, BuildConfig.ACCESS_KEY);
-                AdRequest adRequest = new AdRequest.Builder()
-                        .setBirthday(1989, AdRequest.ARP, 8)
-                        .setGender(AdRequest.Gender.MALE)
-                        .setTestMode(true)
-                        .build();
-                interstitial.setAdRequest(adRequest);
-                interstitial.setAdListener(MainActivity.this);
-                interstitial.loadAd();
+                interstitial.setAdUnitId(BuildConfig.ACCESS_KEY);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                interstitial.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int i) {
+                        Logger.logDebug("MainActivity", "Failed to show DFP interstitial");
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        Logger.logDebug("MainActivity", "Interstitial is loaded, and about to be shown");
+                        interstitial.show();
+                    }
+                });
+                interstitial.loadAd(adRequest);
             }
         });
 
@@ -99,43 +103,5 @@ public class MainActivity extends BaseActivity implements InterstitialAdListener
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onAdLoaded(InterstitialAd interstitialAd) {
-        Logger.logDebug("MainActivity", "Interstitial is loaded, and about to be shown");
-        if(interstitialAd != null) {
-            interstitialAd.show();
-        }
-    }
-
-    @Override
-    public void onAdFetchFailed(InterstitialAd interstitialAd, ErrorCode code) {
-
-    }
-
-    @Override
-    public void onInterstitialShown(InterstitialAd interstitialAd) {
-
-    }
-
-    @Override
-    public void onInterstitialFailedToShow(InterstitialAd interstitialAd) {
-
-    }
-
-    @Override
-    public void onAdClosed(InterstitialAd interstitialAd) {
-
-    }
-
-    @Override
-    public void onAdOpened(InterstitialAd interstitialAd) {
-
-    }
-
-    @Override
-    public void onAdLeftApplication(InterstitialAd interstitialAd) {
-
     }
 }
