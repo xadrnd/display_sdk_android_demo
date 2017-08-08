@@ -28,9 +28,6 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Only show warning log message, default is none
-        Logger.setLevel(Logger.Level.WARNING);
-
         this.bannerView = (PublisherAdView)findViewById(R.id.publisherAdView);
         this.bannerView.setAdListener(new AdListener() {
             @Override
@@ -101,5 +98,29 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(bannerView != null) {
+            bannerView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if(bannerView != null) {
+            bannerView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(bannerView != null) {
+            bannerView.destroy();
+        }
+        super.onDestroy();
     }
 }

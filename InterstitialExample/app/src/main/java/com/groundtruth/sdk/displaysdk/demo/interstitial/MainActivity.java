@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.xad.sdk.AdRequest;
 import com.xad.sdk.BannerView;
+import com.xad.sdk.DisplaySdk;
 import com.xad.sdk.ErrorCode;
 import com.xad.sdk.InterstitialAd;
 import com.xad.sdk.listeners.BannerViewListener;
@@ -32,7 +33,7 @@ public class MainActivity extends BaseActivity implements InterstitialAdListener
         setSupportActionBar(toolbar);
 
         //Only show warning log message, default is none
-        Logger.setLevel(Logger.Level.WARNING);
+        Logger.setLevel(Logger.Level.DEBUG);
 
         FloatingActionButton loadAdButton = (FloatingActionButton) findViewById(R.id.load_banner_button);
         loadAdButton.setVisibility(View.VISIBLE);
@@ -43,9 +44,7 @@ public class MainActivity extends BaseActivity implements InterstitialAdListener
                 //Please go to 'productFlavors' in build.gradle to change the access key if you want to get ad from live campaign
                 interstitial = new InterstitialAd(MainActivity.this, BuildConfig.ACCESS_KEY);
                 AdRequest adRequest = new AdRequest.Builder()
-                        .setBirthday(1989, AdRequest.ARP, 8)
                         .setGender(AdRequest.Gender.MALE)
-                        .setTestMode(true)
                         .build();
                 interstitial.setAdRequest(adRequest);
                 interstitial.setAdListener(MainActivity.this);
@@ -111,7 +110,7 @@ public class MainActivity extends BaseActivity implements InterstitialAdListener
 
     @Override
     public void onAdFetchFailed(InterstitialAd interstitialAd, ErrorCode code) {
-
+        Logger.logDebug("MainActivity", "Interstitial has failed to load with error: " + code.description);
     }
 
     @Override
@@ -137,5 +136,32 @@ public class MainActivity extends BaseActivity implements InterstitialAdListener
     @Override
     public void onAdLeftApplication(InterstitialAd interstitialAd) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DisplaySdk.sharedInstance().resume();
+        if(interstitial != null) {
+            interstitial.pause();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        DisplaySdk.sharedInstance().pause();
+        if(interstitial != null) {
+            interstitial.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        DisplaySdk.sharedInstance().destroy();
+        if(interstitial != null) {
+            interstitial.destroy();
+        }
+        super.onDestroy();
     }
 }

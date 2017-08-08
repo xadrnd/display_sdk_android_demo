@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Admob Banner</string>
+    <string name="action_about">About</string>
+    <string name="copyright">  Copyright © 2017 GroundTruth,Inc. All rights reserved.</string>
+    <string name="about_title">Banner Admob\nExample</string>
+    <string name="load_note">Please click the button on the bottom to load Banner</string>
+    <string name="ad_unit_id">ca-app-pub-1691560014827815/5560359080</string>
+</resources>

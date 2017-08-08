@@ -14,12 +14,12 @@ import android.view.View;
 
 import com.xad.sdk.AdRequest;
 import com.xad.sdk.BannerView;
+import com.xad.sdk.DisplaySdk;
 import com.xad.sdk.ErrorCode;
 import com.xad.sdk.listeners.BannerViewListener;
 import com.xad.sdk.utils.Logger;
 
 public class MainActivity extends BaseActivity implements BannerViewListener {
-
     private BannerView bannerView;
 
     @Override
@@ -28,18 +28,18 @@ public class MainActivity extends BaseActivity implements BannerViewListener {
         setContentView(R.layout.content_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        DisplaySdk.sharedInstance().init(this);
 
         //Only show warning log message, default none
         Logger.setLevel(Logger.Level.WARNING);
 
         //Create banner and set up
         this.bannerView = (BannerView)findViewById(R.id.banner_view);
-        //Please go to 'productFlavors' in build.gradle to change the access key if you want to get ad from live campaign
+        //Please go to 'productFlavors' in build.gradle to change with a valid access key if you want to get ad from live campaign
         this.bannerView.setAccessKey(BuildConfig.ACCESS_KEY);
         AdRequest adRequest = new AdRequest.Builder()
-                .setBirthday(1989, AdRequest.ARP, 8)
-                .setGender(AdRequest.Gender.MALE)
-                .setTestMode(true)
+//Uncomment this to see test creative from our test channel, which doesn't require access key
+//                .setTestMode(true)
                 .build();
         this.bannerView.setAdRequest(adRequest);
         this.bannerView.setAdListener(this);
@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements BannerViewListener {
 
     @Override
     public void onAdFetchFailed(BannerView bannerView, ErrorCode code) {
-
+        Logger.logDebug("MainActivity", "Banner has failed to load, with error: " + code.description);
     }
 
     @Override
@@ -124,5 +124,32 @@ public class MainActivity extends BaseActivity implements BannerViewListener {
     @Override
     public void onAdLeftApplication(BannerView bannerView) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DisplaySdk.sharedInstance().resume();
+        if(bannerView != null) {
+            bannerView.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        DisplaySdk.sharedInstance().pause();
+        if(bannerView != null) {
+            bannerView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        DisplaySdk.sharedInstance().destroy();
+        if(bannerView != null) {
+            bannerView.destroy();
+        }
+        super.onDestroy();
     }
 }
