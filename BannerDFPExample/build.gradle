@@ -16,7 +16,10 @@ allprojects {
     repositories {
         jcenter()
         maven {
-            url  "http://dl.bintray.com/xia0guang/maven"
+            url  "https://ground-truth.bintray.com/groundtruth-android-sdk"
+        }
+        flatDir {
+            dirs 'libs'
         }
     }
 }
