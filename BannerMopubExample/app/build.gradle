@@ -34,7 +34,7 @@ dependencies {
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
-    compile 'com.groundtruth.sdk.displaysdk:customeventmopub:1.0.+'
+    compile 'com.groundtruth.sdk.displaysdk:customeventmopub:1.+'
     //Mopub library exceeds 64k methods, using multidex to avoid it
     compile 'com.android.support:multidex:1.0.+'
     testCompile 'junit:junit:4.12'
